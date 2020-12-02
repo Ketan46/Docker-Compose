@@ -1,0 +1,45 @@
+version: '3.7'
+
+services:
+  chrome:
+    image: selenium/node-chrome:4.0.0-prerelease-beta-1-prerelease-20201127
+    volumes:
+      - /dev/shm:/dev/shm
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+    deploy:
+      replicas: 1
+    entrypoint: bash -c 'SE_OPTS="--host $$HOSTNAME" /opt/bin/entry_point.sh'
+
+  firefox:
+    image: selenium/node-firefox:4.0.0-prerelease-beta-1-prerelease-20201127
+    volumes:
+      - /dev/shm:/dev/shm
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+    deploy:
+      replicas: 1
+    entrypoint: bash -c 'SE_OPTS="--host $$HOSTNAME" /opt/bin/entry_point.sh'
+
+  opera:
+    image: selenium/node-opera:4.0.0-prerelease-beta-1-prerelease-20201127
+    volumes:
+      - /dev/shm:/dev/shm
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+    deploy:
+      replicas: 1
+    entrypoint: bash -c 'SE_OPTS="--host $$HOSTNAME" /opt/bin/entry_point.sh'
+
+  selenium-hub:
+    image: selenium/hub:4.0.0-prerelease-beta-1-prerelease-20201127
+    ports:
+      - "4442:4442"
+      - "4443:4443"
+      - "4444:4444"
